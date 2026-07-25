@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using E_Commerce_Domain.Contract;
 using E_Commerce_Domain.DataSeeding;
 using E_Commerce_Infrastructure.Data;
+using E_Commerce_Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,7 @@ namespace E_Commerce_Infrastructure
             });
 
             services.AddKeyedScoped<IDataSeeder, CatalogDataSeeder>("Catalog");
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             return services;
