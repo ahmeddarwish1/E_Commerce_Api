@@ -22,5 +22,20 @@ namespace E_Commerce_Infrastructure.Repository
         => await dbContext.Set<TEntity>().FindAsync(id, ct);
         public void Update(TEntity entity)
         => dbContext.Set<TEntity>().Update(entity);
+
+
+
+        public async Task<IReadOnlyList<TEntity>> GetAllwithspecAsync(ISpecifications<TEntity, Tkey> spec, CancellationToken ct = default)
+        {
+            //dbcontext.set<T> Iqueryable||spec
+            var result=SpecificationEvaluator.CreateQuery<TEntity,Tkey>(dbContext.Set<TEntity>(), spec);
+            return await result.ToListAsync();
+        }
+
+        public async Task<TEntity?> GetByIdwithspecAsync(ISpecifications<TEntity, Tkey> specifications, CancellationToken ct = default)
+        {
+            var result = SpecificationEvaluator.CreateQuery<TEntity, Tkey>(dbContext.Set<TEntity>(), specifications);
+            return await result.FirstOrDefaultAsync(ct);
+        }
     }
 }

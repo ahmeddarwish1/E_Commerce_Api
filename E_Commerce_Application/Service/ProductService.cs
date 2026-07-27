@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using E_Commerce_Application.Common;
 using E_Commerce_Application.Contracts;
-using E_Commerce_Application.Dros.Products;
+using E_Commerce_Application.Dtos.Products;
 using E_Commerce_Domain.Contract;
 using E_Commerce_Domain.Entities.Products;
 using E_Commerce_Application.Common;
+using E_Commerce_Application.Specifications;
 
 namespace E_Commerce_Application.Service
 {
@@ -33,9 +34,10 @@ namespace E_Commerce_Application.Service
             return Result<IReadOnlyList<BrandDto>>.Ok(data); 
         }
 
-        public async Task<Result<IReadOnlyList<ProductDto>>> GetAllProductsAsync(CancellationToken ct = default)
+        public async Task<Result<IReadOnlyList<ProductDto>>> GetAllProductsAsync(int? brandId, int? typeId,CancellationToken ct = default)
         {
-            var products = await _unitOfWork.GetRepository<Product, int>().GetAllAsync(ct);
+            var spec = new ProductSpecifications(brandId, typeId);
+            var products = await _unitOfWork.GetRepository<Product, int>().GetAllwithspecAsync(spec, ct);
             return Result<IReadOnlyList<ProductDto>>.Ok(_mapper.Map<IReadOnlyList<ProductDto>>(products));
         }
 
@@ -47,9 +49,10 @@ namespace E_Commerce_Application.Service
 
         public async Task<Result<ProductDto>> GetProductsByIdAsync(int id, CancellationToken ct = default)
         {
+            var spec=new ProductSpecifications(id);
             var product = await _unitOfWork
             .GetRepository<Product, int>()
-            .GetByIdAsync(id, ct);
+            .GetByIdwithspecAsync(spec, ct);
 
             if (product == null)
                 return Result<ProductDto>.Fail(
