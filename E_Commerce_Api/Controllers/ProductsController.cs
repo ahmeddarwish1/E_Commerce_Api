@@ -1,6 +1,7 @@
 ﻿using E_Commerce_Application.Common;
 using E_Commerce_Application.Contracts;
 using E_Commerce_Application.Dtos.Products;
+using E_Commerce_Application.Params;
 using E_Commerce_Application.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -20,9 +21,9 @@ namespace E_Commerce_Api.Controllers
 
         //get all product
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductDto>>> GetAllProducts(int?brandId,int?typeId,CancellationToken ct = default)
+        public async Task<ActionResult<PaginatedResult<ProductDto>>> GetAllProducts([FromQuery]ProductQueryParams queryParams,CancellationToken ct = default)
         {
-            var result = await _productService.GetAllProductsAsync(brandId,typeId,ct);
+            var result = await _productService.GetAllProductsAsync(queryParams, ct);
             return ToActionResult(result);
         }
         //get product by id
