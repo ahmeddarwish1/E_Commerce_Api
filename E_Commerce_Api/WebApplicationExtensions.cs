@@ -10,6 +10,9 @@ namespace E_Commerce_Api
             using var scope=app.Services.CreateScope();
             var seeder = scope.ServiceProvider.GetRequiredKeyedService<IDataSeeder>("Catalog");
             await seeder.SeedDataAsync();
+
+            var Identity = scope.ServiceProvider.GetRequiredKeyedService<IDataSeeder>("Identity");
+            await Identity.SeedDataAsync();
             return app;
         }
     }

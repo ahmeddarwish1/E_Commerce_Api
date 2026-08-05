@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.29" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\E_Commerce_Domain\E_Commerce_Domain.csproj" />
   </ItemGroup>
 
