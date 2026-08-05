@@ -20,6 +20,7 @@ namespace E_Commerce_Application
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IOrderService, OrderServices>();
             return services;
         }
     }
